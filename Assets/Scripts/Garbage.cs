@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Garbage : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class Garbage : MonoBehaviour
             return new GameObject[0];
         }
 
-        var parentGarbage = new GameObject { name = "Field" };
+        var parentGarbage = new GameObject { name = "Garbage" };
         var garbage = new GameObject[(sizeField * sizeField) / 4];
         int randomX = 0, randomZ = 0;
 
