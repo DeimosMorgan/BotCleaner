@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
-using System;
+using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
+    public static int amountStepsBot;
+    public static bool isOver;
+
     public Field fieldManager;
     public Garbage garbageManager;
     public Robot robotManager;
@@ -17,14 +21,41 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        _field = fieldManager.InitialField(sizeField, transform);
-        _robot = robotManager.InitialRobot(posRobot.x, posRobot.y, transform);
-        _garbage = garbageManager.InitialGarbage(sizeField, transform);
+        ResetData();
     }
 
-    private void Update()
+    public void Initialize(InputField inputField)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        int tempSizeField = int.Parse(inputField.text);
+        if (tempSizeField >= 2 && tempSizeField <= 50)
+        {
+            sizeField = tempSizeField;
+            if (_field != null || _robot != null || _field != null)
+            {
+                Destroy(_robot);
+                foreach (var cur in _garbage) { Destroy(cur); }
+                foreach (var cur in _field) { Destroy(cur); }
+            }
+            _field = fieldManager.InitialField(tempSizeField, transform);
+            _robot = robotManager.InitialRobot(posRobot.x, posRobot.y, transform);
+            _garbage = garbageManager.InitialGarbage(tempSizeField, transform);
+        }
+    }
+    public void Clean()
+    {
+        StartCoroutine(IEClean());
+    }
+
+    public void ResetData()
+    {
+        amountStepsBot = 0;
+        isOver = false;
+    }
+
+    private IEnumerator IEClean()
+    {
+
+        while (true)
         {
             int posBotX = (int)_robot.transform.position.x;
             int posBotZ = (int)_robot.transform.position.z;
@@ -34,13 +65,21 @@ public class Game : MonoBehaviour
             {
                 _robot.transform.position = robotManager.StepToTarget(_robot.transform.position, _garbage[indexNearTarget].transform.position);
 
-                if (_robot.transform.position == _garbage[indexNearTarget].transform.position)
+                int posGarbageX = (int)_garbage[indexNearTarget].transform.position.x;
+                int posGarbageZ = (int)_garbage[indexNearTarget].transform.position.z;
+
+                if (posBotX == posGarbageX && posBotZ == posGarbageZ)
                 {
                     _garbage = garbageManager.DestroyGarbage(_garbage, indexNearTarget);
                 }
+
+                yield return new WaitForSecondsRealtime(1f);
+            }
+            else
+            {
+                isOver = true;
+                break;
             }
         }
-
     }
-
 }

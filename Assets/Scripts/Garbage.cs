@@ -41,7 +41,7 @@ public class Garbage : MonoBehaviour
             }
             if (!isRepeat)
             {
-                garbage[i] = Instantiate(_prefabGarbage, new Vector3(randomX, _prefabGarbage.transform.position.y, randomZ), Quaternion.identity);
+                garbage[i] = Instantiate(_prefabGarbage, new Vector3(randomX, _prefabGarbage.transform.position.y + 1, randomZ), Quaternion.identity);
                 garbage[i].transform.SetParent(parentGarbage.transform);
                 listGarbage.Add(garbage[i]);
             }

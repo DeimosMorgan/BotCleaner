@@ -3,17 +3,20 @@
 public class RotationAxis : MonoBehaviour
 {
     public Game gameManager;
+    public Swipe swipe;
+
+    public float speedRotation = 20f;
 
     private void Update()
     {
         var point = new Vector3(gameManager.sizeField / 2, gameManager.transform.position.y, gameManager.sizeField / 2);
-        if (Input.GetKey(KeyCode.A))
+        if (swipe.SwipeLeft || Input.GetKey(KeyCode.A))
         {
-            transform.RotateAround(point, Vector3.up, 20 * Time.deltaTime);
+            transform.RotateAround(point, Vector3.up, speedRotation * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (swipe.SwipeRight || Input.GetKey(KeyCode.D))
         {
-            transform.RotateAround(point, -Vector3.up, 20 * Time.deltaTime);
+            transform.RotateAround(point, -Vector3.up, speedRotation * Time.deltaTime);
         }
     }
 }

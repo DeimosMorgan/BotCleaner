@@ -14,7 +14,7 @@ public class Robot : MonoBehaviour
             return new GameObject();
         }
         
-        var robot = Instantiate(_prefabRobot, new Vector3(positionX, _prefabRobot.transform.position.y, positionZ), Quaternion.identity);
+        var robot = Instantiate(_prefabRobot, new Vector3(positionX, _prefabRobot.transform.position.y + 2, positionZ), Quaternion.identity);
         robot.transform.SetParent(parent);
 
         return robot;
@@ -32,24 +32,24 @@ public class Robot : MonoBehaviour
 
         if (botX < garbageX)
         {
-            Debug.Log("RIGHT");
+            Game.amountStepsBot++;
             transform.Translate(1, 0, 0);
         }
         if (botX > garbageX)
         {
-            Debug.Log("LEFT");
+            Game.amountStepsBot++;
             transform.Translate(-1, 0, 0);
         }
         if (botX == garbageX)
         {
             if (botZ < garbageZ)
             {
-                Debug.Log("Forward");
+                Game.amountStepsBot++;
                 transform.Translate(0, 0, 1);
             }
             if (botZ > garbageZ)
             {
-                Debug.Log("Backward");
+                Game.amountStepsBot++;
                 transform.Translate(0, 0, -1);
             }
         }
@@ -61,7 +61,6 @@ public class Robot : MonoBehaviour
     {
         if(garbage.Length == 0)
         {
-            Debug.Log("Bot cleaned field from garbage!");
             return -1000;
         }
         int[] distance = new int[garbage.Length];
