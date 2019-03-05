@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Garbage : MonoBehaviour
 {
@@ -7,14 +8,15 @@ public class Garbage : MonoBehaviour
     [SerializeField]
     private GameObject _prefabGarbage = null;
 
-    public GameObject[] InitialGarbage(int sizeField, Transform parent)
+    public List<GameObject> InitialGarbage(int sizeField, Transform parent)
     {
         if (_prefabGarbage == null)
         {
             Debug.LogError("Prefab Garbage equals null");
-            return new GameObject[0];
+            return new List<GameObject>();
         }
 
+        var listGarbage = new List<GameObject>();
         var parentGarbage = new GameObject { name = "Garbage" };
         var garbage = new GameObject[(sizeField * sizeField) / 4];
         int randomX = 0, randomZ = 0;
@@ -39,11 +41,22 @@ public class Garbage : MonoBehaviour
             }
             if (!isRepeat)
             {
-                garbage[i] = Instantiate(_prefabGarbage, new Vector3(randomX, _prefabGarbage.transform.position.y + 0.5f, randomZ), Quaternion.identity);
+                garbage[i] = Instantiate(_prefabGarbage, new Vector3(randomX, _prefabGarbage.transform.position.y, randomZ), Quaternion.identity);
                 garbage[i].transform.SetParent(parentGarbage.transform);
+                listGarbage.Add(garbage[i]);
             }
         }
         parentGarbage.transform.SetParent(parent);
+
+        return listGarbage;
+    }
+
+    public List<GameObject> DestroyGarbage(List<GameObject> garbage, int indexGarbage)
+    {
+        garbage[indexGarbage].SetActive(false);
+        garbage.Remove(garbage[indexGarbage]);
+
         return garbage;
     }
+
 }

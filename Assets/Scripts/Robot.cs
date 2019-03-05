@@ -14,13 +14,13 @@ public class Robot : MonoBehaviour
             return new GameObject();
         }
         
-        var robot = Instantiate(_prefabRobot, new Vector3(positionX, transform.position.y + 2, positionZ), Quaternion.identity);
+        var robot = Instantiate(_prefabRobot, new Vector3(positionX, _prefabRobot.transform.position.y, positionZ), Quaternion.identity);
         robot.transform.SetParent(parent);
 
         return robot;
     }
 
-    public Vector3 MoveForward(Vector3 positionBot, Vector3 positionTarget)
+    public Vector3 StepToTarget(Vector3 positionBot, Vector3 positionTarget)
     {
         transform.position = positionBot;
 
@@ -29,8 +29,6 @@ public class Robot : MonoBehaviour
 
         int garbageX = (int)positionTarget.x;
         int garbageZ = (int)positionTarget.z;
-
-        //transform.Translate(0, 0, 1);
 
         if (botX < garbageX)
         {
@@ -46,12 +44,12 @@ public class Robot : MonoBehaviour
         {
             if (botZ < garbageZ)
             {
-                Debug.Log("UP");
+                Debug.Log("Forward");
                 transform.Translate(0, 0, 1);
             }
             if (botZ > garbageZ)
             {
-                Debug.Log("DOWN");
+                Debug.Log("Backward");
                 transform.Translate(0, 0, -1);
             }
         }
@@ -59,11 +57,14 @@ public class Robot : MonoBehaviour
         return transform.position;
     }
 
-
-    public int FindNearTarget(GameObject[] garbage, int botX, int botZ)
+    public int FindIndexNearTarget(GameObject[] garbage, int posBotX, int posBotZ)
     {
+        if(garbage.Length == 0)
+        {
+            Debug.Log("Bot cleaned field from garbage!");
+            return -1000;
+        }
         int[] distance = new int[garbage.Length];
-        //Debug.Log("Amount of distance to Bot: " + distance.Length);
         int garbageX;
         int garbageZ;
 
@@ -71,14 +72,11 @@ public class Robot : MonoBehaviour
         {
             garbageX = (int)garbage[i].transform.position.x;
             garbageZ = (int)garbage[i].transform.position.z;
-
-            distance[i] = Mathf.Abs(garbageX - botX) + Mathf.Abs(garbageZ - botZ);
-            
-            //Debug.Log(distance[i] + " ");
+            distance[i] = Mathf.Abs(garbageX - posBotX) + Mathf.Abs(garbageZ - posBotZ);
         }
 
-        int minDistance = distance[0];
-        int indexMinDistance = 0;
+        int indexMinDistance = UnityEngine.Random.Range(0, distance.Length);
+        int minDistance = distance[indexMinDistance];
 
         for (int i = 0; i < distance.Length; i++)
         {
@@ -88,8 +86,6 @@ public class Robot : MonoBehaviour
                 indexMinDistance = i;
             }
         }
-        //Debug.Log("Min distance: " + indexMinDistance);
-        //Debug.Log("Position of min distance: " + garbage[indexMinDistance].transform.position);
         
         return indexMinDistance;
     }

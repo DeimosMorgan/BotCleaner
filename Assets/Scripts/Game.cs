@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Game : MonoBehaviour
 
     private GameObject[,] _field;
     private GameObject _robot;
-    private GameObject[] _garbage;
+    private List<GameObject> _garbage;
 
     private void Start()
     {
@@ -25,20 +26,21 @@ public class Game : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            int botX = (int)transform.position.x;
-            int botZ = (int)transform.position.z;
+            int posBotX = (int)_robot.transform.position.x;
+            int posBotZ = (int)_robot.transform.position.z;
+            int indexNearTarget = robotManager.FindIndexNearTarget(_garbage.ToArray(), posBotX, posBotZ);
 
-            int indexMinDistance = robotManager.FindNearTarget(_garbage, botX, botZ);
-            _robot.transform.position = robotManager.MoveForward(_robot.transform.position, _garbage[indexMinDistance].transform.position);
-
-            if(_robot.transform.position.x == _garbage[indexMinDistance].transform.position.x &&
-               _robot.transform.position.z == _garbage[indexMinDistance].transform.position.z &&
-               _garbage[indexMinDistance].activeInHierarchy != false)
+            if (indexNearTarget != -1000)
             {
-                _garbage[indexMinDistance].SetActive(false);
+                _robot.transform.position = robotManager.StepToTarget(_robot.transform.position, _garbage[indexNearTarget].transform.position);
+
+                if (_robot.transform.position == _garbage[indexNearTarget].transform.position)
+                {
+                    _garbage = garbageManager.DestroyGarbage(_garbage, indexNearTarget);
+                }
             }
         }
-        
+
     }
 
 }
