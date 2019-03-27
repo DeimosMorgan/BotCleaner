@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3176823948800720516
 Transform:
   m_ObjectHideFlags: 0
@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sizeField: 5
-  _prefabGarbage: {fileID: 328880656720623611, guid: d82cd2e691bfc2d49b9f99c523098449,
+  _prefabGarbage: {fileID: 1192998253812126907, guid: 77aa99985fbff4e419740965e92b7ae0,
     type: 3}

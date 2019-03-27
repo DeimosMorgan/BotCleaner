@@ -1708,6 +1708,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 3404382992375883305, guid: 3428dfd3ea072c84ca030b182ddf6b77,
+        type: 3}
+      propertyPath: amountStepsBot
+      value: 
+      objectReference: {fileID: 1936422978}
+    - target: {fileID: 3404382992375883305, guid: 3428dfd3ea072c84ca030b182ddf6b77,
+        type: 3}
+      propertyPath: botCleanField
+      value: 
+      objectReference: {fileID: 1394982984}
     - target: {fileID: 3404382992375883310, guid: 3428dfd3ea072c84ca030b182ddf6b77,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1763,16 +1773,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3404382992375883305, guid: 3428dfd3ea072c84ca030b182ddf6b77,
-        type: 3}
-      propertyPath: amountStepsBot
-      value: 
-      objectReference: {fileID: 1936422978}
-    - target: {fileID: 3404382992375883305, guid: 3428dfd3ea072c84ca030b182ddf6b77,
-        type: 3}
-      propertyPath: botCleanField
-      value: 
-      objectReference: {fileID: 1394982984}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3428dfd3ea072c84ca030b182ddf6b77, type: 3}
 --- !u!1001 &4180814395256820402
